@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circles Drawer</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="800" height="800"></canvas>
+    <script>
+      var canvas = document.getElementById("myCanvas");
+      var context = canvas.getContext("2d");
+      let x, y;
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resizeCanvas);
+
+      resizeCanvas();
+
+      canvas.addEventListener("touchstart", function (e) {
+        e.preventDefault(); 
+        x = e.touches[0].clientX - canvas.getBoundingClientRect().left;
+        y = e.touches[0].clientY - canvas.getBoundingClientRect().top;
+        drawCircle();
+      });
+
+      canvas.addEventListener("mousedown", function (e) {
+        x = e.clientX - canvas.getBoundingClientRect().left;
+        y = e.clientY - canvas.getBoundingClientRect().top;
+        drawCircle();
+      });
+
+      function getRandomColor() {
+        const r = Math.floor(Math.random() * 256); 
+        const g = Math.floor(Math.random() * 256); 
+        const b = Math.floor(Math.random() * 256);
+        const hexColor = "#" + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
+        return hexColor;
+      }
+
+      function drawCircle() {
+        context.beginPath();
+        context.arc(x, y, Math.floor(Math.random() * Math.min(window.innerHeight, window.innerWidth)) / 4, 0, 2 * Math.PI);
+        context.fillStyle = getRandomColor();
+        context.fill();
+        context.closePath();
+      }
+    </script>
+</body>
+</html>
